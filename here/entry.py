@@ -34,7 +34,7 @@ def coordinate_text(x: float, y: float, z: float, dimension: Dimension):
 	coord = RText('[{}, {}, {}]'.format(int(x), int(y), int(z)), dimension.get_coordinate_color())
 	if config.click_to_teleport:
 		return (
-			coord.h(dimension.get_rtext() + ': 点击以传送到' + coord.copy()).
+			coord.h(dimension.get_rtext() + ': Click to transfer to' + coord.copy()).
 			c(RAction.suggest_command, '/execute in {} run tp {} {} {}'.format(dimension.get_reg_key(), int(x), int(y), int(z)))
 		)
 	else:
@@ -50,7 +50,7 @@ def __display(server: ServerInterface, name: str, position: Position, dimension_
 
 	# click event to add waypoint
 	if config.display_voxel_waypoint:
-		texts.append(' ', RText('[+V]', RColor.aqua).h('§bVoxelmap§r: 点此以高亮坐标点, 或者Ctrl点击添加路径点').c(
+		texts.append(' ', RText('[+V]', RColor.aqua).h('§bVoxelmap§r: Click here to highlight a coordinate, Or Ctrl-click to add a waypoint').c(
 			RAction.run_command, '/newWaypoint x:{}, y:{}, z:{}, dim:{}'.format(
 				int(x), int(y), int(z), dimension.get_reg_key()
 			)
@@ -59,7 +59,7 @@ def __display(server: ServerInterface, name: str, position: Position, dimension_
 		command = "xaero_waypoint_add:{}'s Location:{}:{}:{}:{}:6:false:0".format(name, name[0], int(x), int(y), int(z))
 		if isinstance(dimension, LegacyDimension):
 			command += ':Internal_{}_waypoints'.format(dimension.get_reg_key().replace('minecraft:', '').strip())
-		texts.append(' ',  RText('[+X]', RColor.gold).h('§6Xaeros Minimap§r: 点击添加路径点').c(RAction.run_command, command))
+		texts.append(' ',  RText('[+X]', RColor.gold).h('§6Xaeros Minimap§r: Click to add a waypoint').c(RAction.run_command, command))
 
 	# coordinate conversion between overworld and nether
 	if dimension.has_opposite():
@@ -106,6 +106,6 @@ def on_info(server: PluginServerInterface, info: Info):
 
 
 def on_load(server: PluginServerInterface, old):
-	server.register_help_message('!!here', '广播坐标并高亮玩家')
+	server.register_help_message('!!here', 'Broadcast coordinates and highlight players')
 	global config
 	config = server.load_config_simple(CONFIG_FILE, target_class=Config, in_data_folder=False)
